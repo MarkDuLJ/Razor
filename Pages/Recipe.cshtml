@@ -1,0 +1,52 @@
+﻿@page "{id}"
+@inject IRecipesService RecipesService
+@using RazorPage.Models
+@{ 
+    var id = long.Parse((String)RouteData.Values["id"]);
+    var recipe = await RecipesService.FindAsync(id);
+
+    ViewBag.Title=recipe.Name;
+}
+
+
+<div class="row recipe">
+
+<div class="col-md-8">
+
+    <div class="col-md-12">
+
+        <span class="description">
+            @recipe.Description;
+        </span>
+
+        <hr />
+    </div>
+
+    <div class="ingredients col-md-4">
+        <h4>Ingredients</h4>
+        <ul>
+            @foreach (var ingredient in recipe.IngredientsList)
+            {
+                <li>@ingredient</li>
+            }
+        </ul>
+    </div>
+
+    <div class="directions col-md-8">
+        <h4>Directions</h4>
+        <ol>
+            @foreach (var direction in recipe.DirectionsList)
+            {
+                <li>@direction</li>
+            }
+        </ol>
+    </div>
+
+</div>
+
+<div class="col-md-4 text-right">
+    <img class="img img-thumbnail" src="@recipe.GetInlineImageSrc();" />
+</div>
+
+</div>
+   
